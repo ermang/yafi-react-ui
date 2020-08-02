@@ -9,9 +9,8 @@ class LeftPanel extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({"lala": "lala"})
     var vm = this;
-    fetch( Constant.BASE_URL.concat('/topic/popular'))
+    fetch( Constant.TOPIC_POPULAR)
     .then(response => response.json())
     //.then(data => console.log(data))
     .then(data => vm.setState({"content": data.readTopics}));
@@ -27,12 +26,8 @@ class LeftPanel extends React.Component {
         {item.name}
       </li>);
 
-     return <div><h2 className="h2">Popular Topics</h2><ul className="list-group"> {listItems} </ul></div>;
- 
-
-    //return '';
+     return <div><h2 className="h2">Popular Topics</h2><ul className="list-group"> {listItems} </ul></div>;    
   }
-
 
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Constant from './Constant'
 import Thread from './Thread'
+import NewThread from './NewThread'
 
 class MainPanel extends React.Component {
   constructor(props) {
@@ -28,8 +29,10 @@ class MainPanel extends React.Component {
   render() {
     if (this.state.render === 'RECENT')
       return this.renderRecentThreads();
-    else if (this.state.render === 'TOPIC')
+    else if (this.props.signedIn === false && this.state.render === 'TOPIC')
       return this.renderThreadsByTopic();
+    else if (this.props.signedIn === true && this.state.render === 'TOPIC')
+    return this.renderNewThread();
   
   }
 
@@ -52,6 +55,10 @@ class MainPanel extends React.Component {
     const topicName = this.state.content[0].topicName;
 
     return <><h2>{topicName}</h2><ul className="list-group"> {listItems} </ul></>;
+  }
+
+  renderNewThread() {
+    return <NewThread></NewThread>;
   }
 
 }
