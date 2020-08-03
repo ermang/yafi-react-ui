@@ -3,8 +3,7 @@ import Constant from './Constant'
 
 class TopPanel extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {username: '', password: ''};
+    super(props);    
     this.onLogin = this.onLogin.bind(this);
     this.onUsernameChange = this.onUsernameChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -26,8 +25,9 @@ class TopPanel extends React.Component {
       headers: {
         'Access-Control-Allow-Origin':'*',
         'Access-Control-Allow-Credentials': true,
-        "Authorization": "Basic "  + btoa(this.state.username + ":" + this.state.password)
-      }}, null)
+        "Authorization": "Basic "  + btoa(this.props.username + ":" + this.props.password)
+      },
+      credentials: 'include',}, null)
    // .then(response => response.json())
     //.then(data => console.log(data))
     .then(data => this.onSignInSuccess());
@@ -35,11 +35,11 @@ class TopPanel extends React.Component {
   }
 
   onUsernameChange(event) {
-    this.setState({username: event.target.value});
+    this.props.onUsernameChange(event);
   }
 
   onPasswordChange(event) {
-    this.setState({password: event.target.value});
+    this.props.onPasswordChange(event);
   }
 
   render() {    
@@ -48,15 +48,15 @@ class TopPanel extends React.Component {
               yafi
               <div className="row justify-content-end"> 
                 <label>username:</label>
-                <input type="text" value={this.state.username} onChange={this.onUsernameChange}></input>
+                <input type="text" value={this.props.username} onChange={this.onUsernameChange}></input>
                 <label>password:</label>
-                <input type="password" value={this.state.password} onChange={this.onPasswordChange}></input>
+                <input type="password" value={this.props.password} onChange={this.onPasswordChange}></input>
                 <button onClick={this.onLogin} className="btn btn-primary">sign in</button>
                 <button className="btn btn-primary">sign up</button>
               </div>
             </div>;
     else
-      return <div>Welcome {this.state.username}</div>  
+      return <div>Welcome {this.props.username}</div>  
   }
 
 }
