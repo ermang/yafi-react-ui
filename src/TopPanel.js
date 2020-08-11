@@ -1,13 +1,16 @@
 import React from 'react';
 import Constant from './Constant'
+import SWButton from './SWButton'
 
 class TopPanel extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
+    this.state = {signInButtonEnabled: false};
     this.onLogin = this.onLogin.bind(this);
     this.onUsernameChange = this.onUsernameChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.onSignInSuccess = this.onSignInSuccess.bind(this);
+    this.setSignInButtonEnabled = this.setSignInButtonEnabled.bind(this);
   }  
 
   componentDidMount() {
@@ -35,11 +38,29 @@ class TopPanel extends React.Component {
   }
 
   onUsernameChange(event) {
-    this.props.onUsernameChange(event);
+    this.props.onUsernameChange(event);//.then(() =>  3+3);
+    this.setSignInButtonEnabled()    
   }
 
   onPasswordChange(event) {
-    this.props.onPasswordChange(event);
+    this.props.onPasswordChange(event)//.then(() => this.setSignInButtonEnabled()); 
+    this.setSignInButtonEnabled()  
+  }
+
+  setSignInButtonEnabled() {
+    console.log("this.props.username.length > 1 && this.props.password.length > 1)", this.props.username.length > 1 && this.props.password.length > 1)
+    console.log("this.props.username", this.props.username)
+    console.log("this.props.password", this.props.password)
+    if (this.props.username.length > 1 && this.props.password.length > 1) {
+      //this.setState({"signInButtonEnabled": true});
+      this.setState((state, props) => ({signInButtonEnabled: true}));
+      console.log("true")
+    }
+    else {
+      //this.setState({"signInButtonEnabled": false});
+      this.setState((state, props) => ({signInButtonEnabled: false}));
+      console.log("false")
+    }
   }
 
   render() {    
@@ -51,7 +72,8 @@ class TopPanel extends React.Component {
                 <input type="text" value={this.props.username} onChange={this.onUsernameChange}></input>
                 <label>password:</label>
                 <input type="password" value={this.props.password} onChange={this.onPasswordChange}></input>
-                <button onClick={this.onLogin} className="btn btn-primary">sign in</button>
+                {/* <button onClick={this.onLogin} className="btn btn-primary">sign in</button> */}
+                <SWButton enabled={this.state.signInButtonEnabled} onClick={this.onLogin}></SWButton>
                 <button className="btn btn-primary">sign up</button>
               </div>
             </div>;

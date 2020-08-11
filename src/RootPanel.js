@@ -21,10 +21,12 @@ class RootPanel extends React.Component {
 
   onUsernameChange(event) {
     this.setState({username: event.target.value});
+    //this.setState((state, props) => ({username: event.target.value}));
   }
 
   onPasswordChange(event) {
     this.setState({password: event.target.value});
+    //this.setState((state, props) => ({password: event.target.value}));
   }
 
   render() {     
