@@ -1,26 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Constant from './Constant'
 import SWButton from './SWButton'
 
-class TopPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {signInButtonEnabled: false};
-    this.onLogin = this.onLogin.bind(this);
-    this.onUsernameChange = this.onUsernameChange.bind(this);
-    this.onPasswordChange = this.onPasswordChange.bind(this);
-    this.onSignInSuccess = this.onSignInSuccess.bind(this);
-    this.setSignInButtonEnabled = this.setSignInButtonEnabled.bind(this);
-  }  
+function TopPanel(props) {  
 
-  componentDidMount() {
+  const [signInButtonEnabled, setSignInButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    if (props.username.length > 1 && props.password.length > 1)
+      setSignInButtonEnabled(true);
+    else
+      setSignInButtonEnabled(false);
+  }, [props.username, props.password]);
+
+  function onSignInSuccess() {
+    props.onSignInSuccess();
   }
 
-  onSignInSuccess() {
-    this.props.onSignInSuccess();
-  }
-
-  onLogin() {
+  function onLogin() {
     console.log('login clicked');
     fetch( Constant.LOGIN,  {
       method: "POST",
@@ -28,59 +25,46 @@ class TopPanel extends React.Component {
       headers: {
         'Access-Control-Allow-Origin':'*',
         'Access-Control-Allow-Credentials': true,
-        "Authorization": "Basic "  + btoa(this.props.username + ":" + this.props.password)
+        "Authorization": "Basic "  + btoa(props.username + ":" + props.password)
       },
       credentials: 'include',}, null)
    // .then(response => response.json())
     //.then(data => console.log(data))
-    .then(data => this.onSignInSuccess());
+    .then(data => onSignInSuccess());
     //this.setState({global: {signedIn: true}});    
   }
 
-  onUsernameChange(event) {
-    this.props.onUsernameChange(event);//.then(() =>  3+3);
-    this.setSignInButtonEnabled()    
+  function onUsernameChange(event) {
+    props.onUsernameChange(event);      
   }
 
-  onPasswordChange(event) {
-    this.props.onPasswordChange(event)//.then(() => this.setSignInButtonEnabled()); 
-    this.setSignInButtonEnabled()  
-  }
+  function onPasswordChange(event) {
+    props.onPasswordChange(event)  
+  }  
 
-  setSignInButtonEnabled() {
-    console.log("this.props.username.length > 1 && this.props.password.length > 1)", this.props.username.length > 1 && this.props.password.length > 1)
-    console.log("this.props.username", this.props.username)
-    console.log("this.props.password", this.props.password)
-    if (this.props.username.length > 1 && this.props.password.length > 1) {
-      //this.setState({"signInButtonEnabled": true});
-      this.setState((state, props) => ({signInButtonEnabled: true}));
-      console.log("true")
-    }
-    else {
-      //this.setState({"signInButtonEnabled": false});
-      this.setState((state, props) => ({signInButtonEnabled: false}));
-      console.log("false")
-    }
-  }
-
-  render() {    
-    if (this.props.signedIn === false)
-     return <div className="container-fluid"> 
-              yafi
-              <div className="row justify-content-end"> 
-                <label>username:</label>
-                <input type="text" value={this.props.username} onChange={this.onUsernameChange}></input>
-                <label>password:</label>
-                <input type="password" value={this.props.password} onChange={this.onPasswordChange}></input>
-                {/* <button onClick={this.onLogin} className="btn btn-primary">sign in</button> */}
-                <SWButton enabled={this.state.signInButtonEnabled} onClick={this.onLogin}></SWButton>
-                <button className="btn btn-primary">sign up</button>
-              </div>
-            </div>;
-    else
-      return <div>Welcome {this.props.username}</div>  
-  }
-
+  if (props.signedIn ===false)
+    return (   
+        <div className="container-fluid">                
+          <div className="row justify-content-end  align-items-center"> 
+            <label className="col justify-content-start">yafi</label>
+            <label className="col-auto">username:</label>
+            <input className="col-auto pl-0 pr-0" type="text" value={props.username} onChange={onUsernameChange}></input>
+            <label className="col-auto">password:</label>
+            <input className="col-auto pl-0 pr-0" type="password" value={props.password} onChange={onPasswordChange} ></input>               
+            <SWButton enabled={signInButtonEnabled} onClick={onLogin} className="col-auto"></SWButton>
+            <SWButton enabled={true} className="col-auto"></SWButton>
+          </div>
+        </div>
+    );
+  else 
+      return (
+        <div className="container-fluid">
+          <div className="row justify-content-end align-items-center"> 
+          <label className="col-auto">Welcome {props.username}</label>
+          </div>
+        </div>
+      );
+        
 }
 
 export default TopPanel;

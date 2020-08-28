@@ -1,33 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Constant from './Constant'
 
-class LeftPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {content: []};
-    this.onTopicClick = this.onTopicClick.bind(this);
-  }
+function LeftPanel(props) {
 
-  componentDidMount() {
-    var vm = this;
+  const [content, setContent] = useState([]);
+
+  useEffect(() => {
+   
     fetch( Constant.TOPIC_POPULAR)
-    .then(response => response.json())
-    //.then(data => console.log(data))
-    .then(data => vm.setState({"content": data.readTopics}));
-  }
+      .then(response => response.json())
+      //.then(data => console.log(data))
+      .then(data => setContent(data.readTopics));
+  }, []);
 
-  onTopicClick(topicId) {
+  function onTopicClick(topicId) {
     console.log('topic clicked', topicId);
+    props.topicClicked(topicId);
   }
 
-  render() {
-    const listItems = this.state.content.map((item) =>
-      <li key={item.id.toString()} onClick={() => this.onTopicClick(item.id)} className="list-group-item">
-        {item.name}
-      </li>);
+  const listItems = content.map((item) =>
+    <li key={item.id.toString()} onClick={() => onTopicClick(item.id)} className="list-group-item">
+      {item.name}
+    </li>);
 
-     return <div><h2 className="h2">Popular Topics</h2><ul className="list-group"> {listItems} </ul></div>;    
-  }
+  return (
+    <div>
+      <h2 className="h2">Popular Topics</h2>
+      <ul className="list-group"> {listItems} </ul>
+    </div>
+  );    
+  
 
 }
 

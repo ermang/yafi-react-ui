@@ -1,32 +1,25 @@
 import React from 'react';
-import Constant from './Constant';
 
-class SWButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {enabled: false};
-    this.onClick = this.onClick.bind(this);  
-  }
+function SWButton(props) { 
 
-  componentDidMount() {
-  } 
-
-  onClick() {
+  function onClick() {
     console.log('Button clicked');
-    this.props.onLogin();
+    console.log('props=', props)
+    props.onClick();
   }
-
-  render() {
-    if (this.props.enabled === true)     
-     return <div>             
-              <button onClick={this.onClick} className="btn btn-primary">submit</button>
-            </div>;
-    else
-    return <div>
-            <button onClick={this.onClick} className="btn btn-primary" disabled>submit</button>
-           </div>;
-  }
-
+ 
+  if (props.enabled === true)     
+    return (
+    <div>             
+      <button onClick={onClick} className="btn btn-primary">submit</button>
+    </div>
+    );
+  else
+  return (
+    <div>
+      <button onClick={onClick} className="btn btn-primary" disabled>submit</button>
+    </div>
+    );
 
 }
 

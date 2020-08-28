@@ -1,46 +1,48 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Constant from './Constant';
+import SWButton from './SWButton'
 
-class NewThread extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {text: ''};
-    this.onTextChange = this.onTextChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+function NewThread(props) { 
+
+  const [text, setText] = useState('');
+  const [submitEnabled, setSubmitEnabled] = useState(false);
+
+  useEffect(() => {
+    if (text.trim().length > 1 )
+    setSubmitEnabled(true);
+    else
+    setSubmitEnabled(false);
+  }, [text]);
+  
+  function onTextChange(event) {
+    setText(event.target.value);
   }
 
-  componentDidMount() {
-  } 
-
-  onTextChange(event) {
-    this.setState({text: event.target.value});
-  }
-
-  onSubmit() {
+  function onSubmit() {
     console.log('login clicked');
     fetch( Constant.CREATE_THREAD_URL,  {
       method: "POST",
-       body: JSON.stringify({"content": this.state.text, "topicId": this.props.topicId}),
+      body: JSON.stringify({"content": text, "topicId": props.topicId}),
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
         'Content-Type': 'application/json'        
-        // "Authorization": "Basic "  + btoa(this.props.username + ":" + this.props.password)
-      //
+        // "Authorization": "Basic "  + btoa(this.props.username + ":" + this.props.password)      
      },
      credentials: 'include',}, null)
    // .then(response => response.json())
-    .then(data => {console.log(data); this.setState({text: ''}); this.props.onNewThreadSubmitted();})
+    .then(data => { console.log(data); setText(''); props.onNewThreadSubmitted(); })
     //.then(data => this.onSignInSuccess());
     //this.setState({global: {signedIn: true}}); 
   }
 
-  render() {     
-     return <div className="container-fluid">
-              <input type="text" value={this.state.text} onChange={this.onTextChange}></input>
-              <button onClick={this.onSubmit} className="btn btn-primary">submit</button>
-            </div>;
-  }
+  return (    
+    <div className="container-fluid">
+      <input type="text" value={text} onChange={onTextChange}></input>
+      {/* <button onClick={onSubmit} className="btn btn-primary">submit</button> */}
+      <SWButton enabled={submitEnabled} onClick={onSubmit}></SWButton>
+    </div>
+  );
 
 }
 

@@ -16,14 +16,17 @@ class Thread extends React.Component {
 
   render() {
     return (
-    <div>
+    <div className="container-fluid">
       <p>
         {this.props.item.content}
       </p>
       <div className="row justify-content-end"> 
-      {this.props.item.username} 
-      {this.props.item.likeCount} 
-      {this.props.item.createdOn} 
+      <label className="col-auto pr-0">{this.props.item.username}</label> 
+      <label className="col-auto ">{this.props.item.likeCount}</label>
+      <p style={{'fontSize':'1em'}}>
+      &#128077;
+      </p>
+      <label className="col-auto ">{this.props.item.createdOn}</label>
       </div>
     </div>
     );
