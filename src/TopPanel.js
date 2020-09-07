@@ -51,8 +51,8 @@ function TopPanel(props) {
             <input className="col-auto pl-0 pr-0" type="text" value={props.username} onChange={onUsernameChange}></input>
             <label className="col-auto">password:</label>
             <input className="col-auto pl-0 pr-0" type="password" value={props.password} onChange={onPasswordChange} ></input>               
-            <SWButton enabled={signInButtonEnabled} onClick={onLogin} className="col-auto"></SWButton>
-            <SWButton enabled={true} className="col-auto"></SWButton>
+            <SWButton enabled={signInButtonEnabled} onClick={onLogin} text={'sign in'} className="col-auto"></SWButton>
+            <SWButton enabled={true} text={'sign up'} className="col-auto"></SWButton>
           </div>
         </div>
     );

@@ -12,7 +12,8 @@ const Constant = {
                     "LOGIN": LOGIN_URL,
                     "THREAD_RECENT_URL": THREAD_RECENT_URL,
                     "CREATE_THREAD_URL": CREATE_THREAD_URL,
-                    "READ_THREADS_BY_TOPIC_ID_URL": READ_THREADS_BY_TOPIC_ID_URL
+                    "READ_THREADS_BY_TOPIC_ID_URL": READ_THREADS_BY_TOPIC_ID_URL,
+                    "LIKE_THREAD_URL": BASE_URL.concat('/thread/like')
                  };
 
 export default Constant;

@@ -23,7 +23,7 @@ function RecentThreads(props) {
   const listItems = content.map((item) =>
   <li  key={item.id.toString()}  className="list-group-item">
     <h2 className="h2" onClick={() => onTopicClick(item.topicId)}>{item.topicName} </h2>
-    <Thread item={item}></Thread>
+    <Thread item={item} signedIn={props.signedIn}></Thread>
   </li>);
   
   return (

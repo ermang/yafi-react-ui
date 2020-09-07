@@ -29,9 +29,9 @@ class MainPanel extends React.Component {
 
   render() {
     if (this.props.topicId === 0)
-      return <RecentThreads onTopicClick={this.onTopicClick}></RecentThreads>;
+      return <RecentThreads onTopicClick={this.onTopicClick} signedIn={this.props.signedIn}></RecentThreads>;
     else
-      return <ThreadsByTopic topicId={this.props.topicId}></ThreadsByTopic>;
+      return <ThreadsByTopic topicId={this.props.topicId} signedIn={this.props.signedIn}></ThreadsByTopic>;
     // else if (this.props.signedIn === false && this.state.render === 'TOPIC')
     //   return this.renderThreadsByTopic();
     // else if (this.props.signedIn === true && this.state.render === 'TOPIC')

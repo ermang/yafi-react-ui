@@ -11,13 +11,13 @@ function SWButton(props) {
   if (props.enabled === true)     
     return (
     <div>             
-      <button onClick={onClick} className="btn btn-primary">submit</button>
+      <button onClick={onClick} className="btn btn-primary">{props.text}</button>
     </div>
     );
   else
   return (
     <div>
-      <button onClick={onClick} className="btn btn-primary" disabled>submit</button>
+      <button onClick={onClick} className="btn btn-primary" disabled>{props.text}</button>
     </div>
     );
 
